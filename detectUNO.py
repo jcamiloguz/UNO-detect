@@ -19,7 +19,7 @@ ret, thresh_img = cv2.threshold(blur, thresh, 255, cv2.THRESH_BINARY)
 
 contours, hierarchy = cv2.findContours(thresh_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
 peri = cv2.arcLength(contours[0], True)
-approx = cv2.approxPolyDP(contours[0], 0.01*peri, True)
+apprsox = cv2.approxPolyDP(contours[0], 0.01*peri, True)
 pts = np.float32(approx)
 
 print(pts)
