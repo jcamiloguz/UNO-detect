@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 def process_img(img):
     img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -40,15 +40,22 @@ def process_img(img):
         print(pntAPegar)
         M = cv2.getPerspectiveTransform(pntsOrde, pntAPegar)
         img = cv2.warpPerspective(img, M, (200, 320))# Perspectiva de UNO carta 1:1.6
+        color = ('r', 'g', 'b')
+        img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+    ##Imagen normal con su histograma
+        plt.figure(figsize=(12, 4))
+        plt.subplot(1, 2, 1), plt.imshow(img)
+        plt.axis("off")
 
-    return img
+        for i, c in enumerate(color):
+            hist = cv2.calcHist([img], [i], None, [256], [0, 256])
+            plt.subplot(1, 2, 2), plt.plot(hist, color=c)
+            plt.xlim([0, 256])
+        return img
 
-img=cv2.imread('2B2.jpeg')
+img=cv2.imread('C3.JPG')
 img=process_img(img)
 temp_rect = np.zeros((4,2), dtype = "float32")
-cv2.imshow('imagen',img)
-cv2.waitKey(0)
-cv2.xfeatures2d.SIFT_create()
 # average = np.sum(corner, axis=0) / len(corner)  # entrega promedio (centro) de X y promedio de Y (posicion)
 # xCentro = int(average[0][0])
 # yCentro = int(average[0][1])
