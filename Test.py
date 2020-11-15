@@ -40,17 +40,37 @@ def process_img(img):
         print(pntAPegar)
         M = cv2.getPerspectiveTransform(pntsOrde, pntAPegar)
         img = cv2.warpPerspective(img, M, (200, 320))# Perspectiva de UNO carta 1:1.6
-        color = ('r', 'g', 'b')
-        img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
-    ##Imagen normal con su histograma
-        plt.figure(figsize=(12, 4))
-        plt.subplot(1, 2, 1), plt.imshow(img)
-        plt.axis("off")
 
-        for i, c in enumerate(color):
-            hist = cv2.calcHist([img], [i], None, [256], [0, 256])
-            plt.subplot(1, 2, 2), plt.plot(hist, color=c)
-            plt.xlim([0, 256])
+    #               Histograma
+    #     color = ('r', 'g', 'b')
+    #     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+    # ##Imagen normal con su histograma
+    #     plt.figure(figsize=(12, 4))
+    #     plt.subplot(1, 2, 1), plt.imshow(img)
+    #     plt.axis("off")
+    #
+    #     for i, c in enumerate(color):
+    #         hist = cv2.calcHist([img], [i], None, [256], [0, 256])
+    #         plt.subplot(1, 2, 2), plt.plot(hist, color=c)
+    #         plt.xlim([0, 256])
+        colors = [
+            ([0, 90, 60], [40, 255, 120]),
+            ([25, 146, 190], [62, 200, 250]),  #amarillo
+            ([86, 31, 4], [255, 100, 80]),#azul
+            ([17, 15, 100], [50, 56, 255]),#rojo
+        ]
+        for (lower, upper) in colors:
+            # create NumPy arrays from the boundaries
+            lower = np.array(lower, dtype="uint8")
+            upper = np.array(upper, dtype="uint8")
+            # find the colors within the specified boundaries and apply
+            # the mask
+            mask = cv2.inRange(img, lower, upper)
+            output = cv2.bitwise_and(img, img, mask=mask)
+            # show the images
+            cv2.imshow("images", np.hstack([img, output]))
+            cv2.waitKey(0)
+
         return img
 
 img=cv2.imread('C3.JPG')
