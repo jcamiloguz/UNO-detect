@@ -9,13 +9,13 @@ cap = cv2.VideoCapture(0)
 while(True):
     ret, frame = cap.read()
 
-    img,imgContour,corner,isCard=drawContour(frame)
+    img,imgContour,corner,isCard,w,h=drawContour(frame)
     cv2.imshow('frame',imgContour)
 
 
     if cv2.waitKey(1) & 0xFF == ord(' '):
         if(isCard):
-            imgProcessed, color, isCard = detectColor(img,corner)  # Aplicamos la función que detecta el color
+            imgProcessed, color, isCard = detectColor(img,corner,w,h)  # Aplicamos la función que detecta el color
             number = sift(imgProcessed)
             print('La carta es ' + number + ' de color ' + color)
     if cv2.waitKey(1) & 0xFF == ord('q'):

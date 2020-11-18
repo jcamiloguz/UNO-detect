@@ -3,17 +3,21 @@ import numpy as np
 
 
 
-def detectColor(img, corner):
+def detectColor(img, corner, w, h):
     isCard=False
     defColor=' '
     corner=np.float32(corner)
 
     pntsOrde=np.float32([corner[1][0], corner[0][0], corner[2][0], corner[3][0]])
 
-    pntAPegar = np.float32([[0, 0], [200, 0], [0, 320], [200, 320]])  # Depende tamaño del resultado que queramos
-
-    M = cv2.getPerspectiveTransform(pntsOrde, pntAPegar)
-    img = cv2.warpPerspective(img, M, (200, 320))  # Perspectiva de UNO carta 1:1.6
+    if w>h:
+        pntAPegar = np.float32([[0, 0], [320, 0], [0, 200], [320, 200]])  # Depende tamaño del resultado que queramos
+        M = cv2.getPerspectiveTransform(pntsOrde, pntAPegar)
+        img = cv2.warpPerspective(img, M, (320, 200))  # Perspectiva de UNO carta 1:1.6
+    if h>w:
+        pntAPegar = np.float32([[0, 0], [200, 0], [0, 320], [200, 320]])  # Depende tamaño del resultado que queramos
+        M = cv2.getPerspectiveTransform(pntsOrde, pntAPegar)
+        img = cv2.warpPerspective(img, M, (200, 320))  # Perspectiva de UNO carta 1:1.6
 
     # Obtenemos el color de la carta
     # Primero establecemos una lista de fronteras en el espacio de color RGB (o BGR), donde las entradas son dos
@@ -42,11 +46,9 @@ def detectColor(img, corner):
         # Aplicamos el método bitwise que lo que hace es aplicar la máscara a la img, mostrando solo los pixeles
         # en la img que tienen un valor blanco (255) en la máscara.
         output = cv2.bitwise_and(img, img, mask=mask)
-        print('entro')
         totalPix=sum(sum(mask))
         if(totalPix>9000):
             defColor=color
-            print(color)
             isCard = True
 
 

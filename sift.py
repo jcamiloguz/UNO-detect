@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 def sift(testCard):
     result =''#Numero de carta selecionada
     finalMatch=0 #Mayor de matches
-    cards=['1','2','3','4','5','6','7','8','9']
+    cards=['1','2','3','4','5','6','7','8','9','stop','change']
     for cardName in cards:
         filename=cardName+'.jpeg'
         path='./Cartas/'+filename
@@ -19,14 +19,15 @@ def sift(testCard):
 
         trainCard_blur = cv2.GaussianBlur(trainCard_gray, (5, 5), 0)
         testCard_blur = cv2.GaussianBlur(testCard_gray, (5, 5), 0)
-
+        trainCard_blur=cv2.medianBlur(trainCard_blur,3)
+        testCard_blur=cv2.medianBlur(testCard_blur,3)
         # train_thres = cv2.adaptiveThreshold(trainCard_blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
         #     cv2.THRESH_BINARY,11,2)
         # test_thres = cv2.adaptiveThreshold(testCard_blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
         #     cv2.THRESH_BINARY,11,2)
         # test_thres= closing(test_thres, disk(1))
         # train_thres= closing(train_thres, disk(1))
-        sift=cv2.xfeatures2d.SIFT_create()
+        sift=cv2.xfeatures2d.SURF_create(hessianThreshold=400)
 
         train_keypoints, train_descriptor = sift.detectAndCompute(trainCard_blur, None)
         test_keypoints, test_descriptor = sift.detectAndCompute(testCard_blur, None)
@@ -39,7 +40,8 @@ def sift(testCard):
         for m, n in matches:
             if m.distance < 0.5 * n.distance:
                 good.append([m])
-
+        cv2.imshow('info',testCard_blur)
+        cv2.imshow('info2',trainCard_blur)
         # result = cv2.drawMatches(trainCard_gray, train_keypoints, testCard_gray, test_keypoints, matches, testCard_gray,
         #                          flags=2)
         #

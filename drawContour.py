@@ -4,6 +4,8 @@ def drawContour(img):
 
     isCard=False
     corner=0
+    w=0
+    h=0
     imgWithCountors=img
     # Pasar a escala de grises
     img_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -30,6 +32,7 @@ def drawContour(img):
             img[corner[1][0][1]: corner[1][0][1] + 10, corner[1][0][0]:corner[1][0][0] + 10]=(0, 0, 0)
             img[corner[2][0][1]: corner[2][0][1] + 10, corner[2][0][0]:corner[2][0][0] + 10]=(0, 0, 0)
             img[corner[3][0][1]: corner[3][0][1] + 10, corner[3][0][0]:corner[3][0][0] + 10]=(0, 0, 0)
+            x, y, w, h=cv2.boundingRect(contours[0])
             isCard=True
-    return img,imgWithCountors, corner, isCard
+    return img,imgWithCountors, corner, isCard,w,h
 
