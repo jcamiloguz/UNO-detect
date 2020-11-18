@@ -7,8 +7,9 @@ def detectColor(img, corner, w, h):
     isCard=False
     defColor=' '
     corner=np.float32(corner)
-
+    #
     pntsOrde=np.float32([corner[1][0], corner[0][0], corner[2][0], corner[3][0]])
+    #Encontrar distancia entre corners
 
     if w>h:
         pntAPegar = np.float32([[0, 0], [320, 0], [0, 200], [320, 200]])  # Depende tamaño del resultado que queramos
