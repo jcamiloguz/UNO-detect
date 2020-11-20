@@ -6,9 +6,11 @@ import numpy as np
 def detectColor(img, corner, w, h):
     isCard=False
     defColor=' '
-    corner=np.float32(corner)
+    # corner=np.float32(corner)
     #
+    
     pntsOrde=np.float32([corner[1][0], corner[0][0], corner[2][0], corner[3][0]])
+
     #Encontrar distancia entre corners
 
     if w>h:
@@ -27,10 +29,10 @@ def detectColor(img, corner, w, h):
     # que tengan R>=100, G>=15, B>=17 y R<=255, G<=56, B<=50 serán considerados de color rojo.
     # Hacemos esto mismo con los otros colores.
     colors = [
-        ([0, 90, 60], [40, 255, 120], 'verde'), #verde
-        ([25, 146, 190], [62, 200, 250], 'amarillo'),  #amarillo
-        ([86, 31, 4], [255, 100, 80], 'azul'),#azul
-        ([17, 15, 100], [50, 56, 255], 'rojo'),#rojo
+        ([0, 90, 100], [115, 255, 165], 'green'), #verde
+        ([25, 146, 190], [62, 200, 250], 'yellow'),  #amarillo
+        ([86, 31, 4], [255, 100, 80], 'blue'),#azul
+        ([17, 15, 100], [50, 56, 255], 'red'),#rojo
     ]
 
     # Creamos un loop que vaya recorriendo nuestras fronteras

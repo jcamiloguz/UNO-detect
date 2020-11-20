@@ -4,22 +4,14 @@ from skimage.morphology import erosion, dilation, opening, closing, white_tophat
 import numpy as  np
 import matplotlib.pyplot as plt
 
-def sift(testCard):
+def sift(testCard, cardsDescriptors):
     result =''#Numero de carta selecionada
     finalMatch=0 #Mayor de matches
-    cards=['1','2','3','4','5','6','7','8','9','stop','change']
-    for cardName in cards:
-        filename=cardName+'.jpeg'
-        path='./Cartas/'+filename
-        # print(path)
-        trainCard=cv2.imread(path)
+    for cardDescriptor in cardsDescriptors:
 
-        trainCard_gray=cv2.cvtColor(trainCard,cv2.COLOR_BGR2GRAY)
         testCard_gray=cv2.cvtColor(testCard,cv2.COLOR_BGR2GRAY)
 
-        trainCard_blur = cv2.GaussianBlur(trainCard_gray, (5, 5), 0)
         testCard_blur = cv2.GaussianBlur(testCard_gray, (5, 5), 0)
-        trainCard_blur=cv2.medianBlur(trainCard_blur,3)
         testCard_blur=cv2.medianBlur(testCard_blur,3)
         # train_thres = cv2.adaptiveThreshold(trainCard_blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
         #     cv2.THRESH_BINARY,11,2)
@@ -27,21 +19,19 @@ def sift(testCard):
         #     cv2.THRESH_BINARY,11,2)
         # test_thres= closing(test_thres, disk(1))
         # train_thres= closing(train_thres, disk(1))
-        sift=cv2.xfeatures2d.SURF_create(hessianThreshold=400)
+        sift=cv2.xfeatures2d.SIFT_create()
 
-        train_keypoints, train_descriptor = sift.detectAndCompute(trainCard_blur, None)
         test_keypoints, test_descriptor = sift.detectAndCompute(testCard_blur, None)
 
         BFMatcher=cv2.BFMatcher()
 
-        matches = BFMatcher.knnMatch(train_descriptor, test_descriptor,k=2)
+        matches = BFMatcher.knnMatch(cardDescriptor[0], test_descriptor,k=2)
 
         good = []# matches que cumplen con la condicion v
         for m, n in matches:
             if m.distance < 0.5 * n.distance:
                 good.append([m])
         cv2.imshow('info',testCard_blur)
-        cv2.imshow('info2',trainCard_blur)
         # result = cv2.drawMatches(trainCard_gray, train_keypoints, testCard_gray, test_keypoints, matches, testCard_gray,
         #                          flags=2)
         #
@@ -56,7 +46,7 @@ def sift(testCard):
         # print("Number of Matching : ", len(good))
         uniMatch=len(good)
         if uniMatch>finalMatch:
-            result=cardName
+            result=cardDescriptor[1]
             finalMatch=uniMatch
     return result
 
