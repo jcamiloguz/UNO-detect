@@ -1,8 +1,4 @@
 import cv2
-import skimage
-from skimage.morphology import erosion, dilation, opening, closing, white_tophat,disk
-import numpy as  np
-import matplotlib.pyplot as plt
 
 def sift(testCard, cardsDescriptors):
     result =''#Numero de carta selecionada

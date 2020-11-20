@@ -1,4 +1,3 @@
-import numpy as np
 from playsound import playsound
 
 def playCards(number, color, audiosPath):

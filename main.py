@@ -10,12 +10,12 @@ from sift import sift
 cap = cv2.VideoCapture(0)
 cardsDescriptors, audiosPath=save()
 playsound('./audios/welcome.mp3')
+
 while(True):
     ret, frame = cap.read()
 
     img,imgContour,corner,isCard,w,h=drawContour(frame)
     cv2.imshow('frame',imgContour)
-
 
     if cv2.waitKey(1) & 0xFF == ord(' '):
         if(isCard):
