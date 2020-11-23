@@ -32,7 +32,7 @@ def detectColor(img, corner, w, h):
         ([0, 90, 100], [115, 255, 165], 'green'), #verde
         ([25, 146, 190], [62, 200, 250], 'yellow'),  #amarillo
         ([86, 31, 4], [255, 100, 80], 'blue'),#azul
-        ([17, 15, 100], [50, 56, 255], 'red'),#rojo
+        ([17, 15, 100], [50, 100, 255], 'red'),#rojo
     ]
 
     # Creamos un loop que vaya recorriendo nuestras fronteras
